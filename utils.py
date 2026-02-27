@@ -141,6 +141,7 @@ class MapBuilder:
         no_off_tiles = (xtra_br_tilex - xtra_tl_tilex + 1) * (xtra_br_tiley - xtra_tl_tiley + 1)
 
         print(f'There are {no_off_tiles} big tiles...')
+        no_off_detailedtiles = 0
 
         for x in range (xtra_tl_tilex, xtra_br_tilex + 1):
             for y in range(xtra_tl_tiley, xtra_br_tiley + 1):
@@ -154,15 +155,20 @@ class MapBuilder:
 
                 if detailed:
                     new_tile.DetailedTiles = sorted(get_all_children(x, y, overview_zoom), key=lambda tile: (tile.x, tile.y))
-
+                    no_off_detailedtiles += len(new_tile.DetailedTiles)
 
                 self.tiles.append(new_tile)
                 y_index += 1
             y_index = 0
             x_index += 1
 
+        print(f'There are {no_off_detailedtiles} detailed tiles...')
+
+
     def fetchTiles(self):
    
+        print(f'Finding or downloading tiles...')
+
         for tile in self.tiles:
             elevation_tile = os.path.join(self.download_directory, f'elevation_{self.tilesources.selectedElevationSource().prefix}_{tile.x}_{tile.y}.png')
             tile.elevationsource = elevation_tile
@@ -172,6 +178,7 @@ class MapBuilder:
                 print(f'{elevation_tile} found...')
             else:
                 tile.status = downloadTile(self.tilesources.selectedElevationSource().getFormattedUrl(tile.x, tile.y, tile.z), elevation_tile)
+                print(f'{elevation_tile} downloaded...')
 
             image_tile = os.path.join(self.download_directory, f'image_{self.tilesources.selectedImageSource().prefix}_{tile.x}_{tile.y}.png')
             tile.imagesource = image_tile
@@ -181,7 +188,7 @@ class MapBuilder:
                 print(f'{image_tile} found...')
             else:
                 tile.status = downloadTile(self.tilesources.selectedImageSource().getFormattedUrl(tile.x, tile.y, tile.z), image_tile)
-                
+                print(f'{image_tile} downloaded...')
 
             if tile.detailed == True:
                 for detailed_tile in tile.DetailedTiles:
@@ -193,6 +200,7 @@ class MapBuilder:
                         print(f'{elevation_tile} found...')
                     else:
                         detailed_tile.status = downloadTile(self.tilesources.selectedElevationSource().getFormattedUrl(detailed_tile.x, detailed_tile.y, detailed_tile.z), elevation_tile)
+                        print(f'{elevation_tile} downloaded...')
 
                     image_tile = os.path.join(self.download_directory, f'image_{self.tilesources.selectedImageSource().prefix}_{detailed_tile.x}_{detailed_tile.y}.png')
                     detailed_tile.imagesource = image_tile
@@ -202,7 +210,8 @@ class MapBuilder:
                         print(f'{image_tile} found...')
                     else:
                         detailed_tile.status = downloadTile(self.tilesources.selectedImageSource().getFormattedUrl(detailed_tile.x, detailed_tile.y, detailed_tile.z), image_tile)
-
+                        print(f'{image_tile} downloaded...')
+                        
     def buildOutputTiles(self):
 
         elevation_output_temp_tile = 0
