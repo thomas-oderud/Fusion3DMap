@@ -1,0 +1,226 @@
+{
+	Tools = orderedDict() {
+		MainSettings = MacroOperator {
+			CtrlWZoom = false,
+			CustomData = {
+				Path = {
+					Map = {
+						["Setting:"] = "Macros:\\"
+					}
+				},
+			},		
+			ViewInfo = GroupInfo { Pos = { 618.667, 436.455 } },
+			Tools = orderedDict() {
+				Polygon1_1_3 = PolylineMask {
+					DrawMode = "ClickAppend",
+					DrawMode2 = "InsertAndModify",
+					CtrlWZoom = false,
+					CtrlWShown = false,
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" }, },
+						BorderWidth = Input { Value = 0.273, },
+						MaskWidth = Input { Value = 1920, },
+						MaskHeight = Input { Value = 1080, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+						UseFrameFormatSettings = Input { Value = 1, },
+						ClippingMode = Input { Value = FuID { "None" }, },
+						Polyline = Input {
+							SourceOp = "Polygon1_1_3Polyline",
+							Source = "Value",
+						},
+						Polyline2 = Input {
+							Value = Polyline {
+							},
+							Disabled = true,
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -0.9375, 6.75758 } },
+				},
+				Polygon1_1_3Polyline = BezierSpline {
+					SplineColor = { Red = 173, Green = 255, Blue = 47 },
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyFrames = {
+						[68] = { 0, Flags = { Linear = true, LockedY = true }, Value = Polyline {
+							} }
+					}
+				}
+			},
+			UserControls = orderedDict() {
+				RouteNest = {
+					LINKS_Name = "Route",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "LabelControl",
+					INP_Integer = false,
+					LBLC_DropDownButton = true,
+					LBLC_NumInputs = 7,
+					LBLC_NestLevel = 1,
+					ICS_ControlPage = "Controls",
+					INP_External = false,
+				},
+				Progress = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 1,
+					INP_Default = 0,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Controls",
+					ICD_Center = 0.5,
+					LINKS_Name = "Progress"
+				},
+				BorderWidth = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 1,
+					INP_Default = 0,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Controls",
+					ICD_Center = 0.5,
+					LINKS_Name = "Width"
+				},
+				RouteActualLength = {
+					LINKS_Name = "Actual Length",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0,
+					INP_Integer = false,
+					INP_MinScale = 0,
+					INP_MaxScale = 400,
+					INP_MinAllowed = 0,
+					INP_MaxAllowed = 1000,
+					ICD_Center = 200,
+					IC_Steps = 0,
+					ICS_ControlPage = "Controls"
+				},
+				routeRED = {
+					LINKS_Name = "Color",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "ColorControl",
+					INP_Default = 1,
+					INP_Integer = false,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+					INP_MinAllowed = 0,
+					INP_MaxAllowed = 1,
+					IC_ControlGroup = 1,
+					IC_ControlID = 0,
+					CLRC_ColorSpace = "HSV",
+					CLRC_ShowWheel = false,
+					ICS_ControlPage = "Controls",
+					INP_External = false
+				},
+				routeGREEN = {
+					LINKS_Name = "",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "ColorControl",
+					INP_Default = 1,
+					INP_Integer = false,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+					INP_MinAllowed = 0,
+					INP_MaxAllowed = 1,
+					IC_ControlGroup = 1,
+					IC_ControlID = 1,
+					CLRC_ColorSpace = "HSV",
+					CLRC_ShowWheel = false,
+					ICS_ControlPage = "Controls"
+				},
+				routeBLUE = {
+					LINKS_Name = "",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "ColorControl",
+					INP_Default = 1,
+					INP_Integer = false,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+					INP_MinAllowed = 0,
+					INP_MaxAllowed = 1,
+					IC_ControlGroup = 1,
+					IC_ControlID = 2,
+					CLRC_ColorSpace = "HSV",
+					CLRC_ShowWheel = false,
+					ICS_ControlPage = "Controls",
+					INP_External = false
+				},
+				routeALPHA = {
+					LINKS_Name = "",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "ColorControl",
+					INP_Default = 1,
+					INP_Integer = false,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+					INP_MinAllowed = 0,
+					INP_MaxAllowed = 1,
+					IC_ControlGroup = 1,
+					IC_ControlID = 3,
+					CLRC_ColorSpace = "HSV",
+					CLRC_ShowWheel = false,
+				},
+				
+				mapNEST = {
+					LINKS_Name = "Map",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "LabelControl",
+					INP_Integer = false,
+					LBLC_DropDownButton = true,
+					LBLC_NumInputs = 3,
+					LBLC_NestLevel = 1,
+					ICS_ControlPage = "Controls",
+					INP_External = false,
+				},
+				mapDisplace = {
+					LINKS_Name = "Displace",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0.5,
+					INP_Integer = false,
+					INP_MinScale = 0,
+					INP_MaxScale = 1,
+					INP_MinAllowed = 0,
+					INP_MaxAllowed = 2,
+					ICD_Center = 0.5,
+					IC_Steps = 0,
+					ICS_ControlPage = "Controls"
+				},
+				RouteOffset = {
+					LINKS_Name = "Route Offset",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 0.005,
+					INP_Integer = false,
+					INP_MinScale = 0,
+					INP_MaxScale = 0.1,
+					INP_MinAllowed = 0,
+					INP_MaxAllowed = 1,
+					ICD_Center = 0.001,
+					IC_Steps = 0,
+					ICS_ControlPage = "Controls"
+				},
+				
+				MapSubdivisions = {
+					LINKS_Name = "Map Subdivisions",
+					LINKID_DataType = "Number",
+					INPID_InputControl = "SliderControl",
+					INP_Default = 10,
+					INP_Integer = true,
+					INP_MinScale = 1,
+					INP_MaxScale = 500,
+					INP_MinAllowed = 1,
+					INP_MaxAllowed = 1000,
+					ICD_Center = 250,
+					IC_Steps = 5,
+					ICS_ControlPage = "Controls",
+					INP_External = false
+				}
+			}
+		}
+	},
+	ActiveTool = "MainSettings"
+}

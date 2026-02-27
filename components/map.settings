@@ -1,0 +1,123 @@
+{
+	Tools = ordered() {
+		Map = MacroOperator {
+			CtrlWZoom = false,
+			CustomData = {
+				Path = {
+					Map = {
+						["Setting:"] = "Macros:\\"
+					}
+				},
+			},
+			Inputs = ordered() {
+				Progress = Input { Value = 1, },
+				routeRED = Input { Value = 0.333333333333333, },
+				routeGREEN = Input { Value = 0.666666666666667, },
+				RouteActualLength = Input { Value = 75, },
+				ProgressLength = Input { Expression = "Progress*RouteActualLength", },
+				ProgressText = Input { Expression = "Text(string.format(\"%.1f\", ProgressLength)..\" km\")", }
+			},
+			ViewInfo = GroupInfo {
+				Pos = { 1430, 82.5 },
+				Flags = {
+					Expanded = true,
+					AllowPan = false,
+					GridSnap = true,
+					ConnectedSnap = true,
+					RemoveRouters = true
+				},
+				Size = { 527.208, 220.871, 54.9375, 24.2424 },
+				Direction = "Horizontal",
+				PipeStyle = "Direct",
+				Scale = 1,
+				Offset = { 0, 0 }
+			},
+			Tools = ordered() {
+				Main = Custom {			
+					CtrlWZoom = false,			
+				},			
+			},
+			UserControls = ordered() {				
+				Map = ControlPage { CTID_DIB_ID = "Icons.Tools.Tabs.Controls", CTS_Name = "Map" },			
+				mapDisplace = {
+					INP_MaxAllowed = 2,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					IC_Steps = 0,
+					INP_MaxScale = 1,
+					INP_Default = 0.5,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Map",
+					ICD_Center = 0.5,
+					LINKS_Name = "Displace"
+				},
+				MapSubdivisions = {
+					INP_MaxAllowed = 1000,
+					INP_Integer = true,
+					INPID_InputControl = "SliderControl",
+					IC_Steps = 5,
+					INP_MaxScale = 500,
+					INP_Default = 300,
+					INP_MinScale = 1,
+					INP_MinAllowed = 1,
+					LINKID_DataType = "Number",
+					INP_External = false,
+					ICS_ControlPage = "Map",
+					ICD_Center = 250,
+					LINKS_Name = "Map Subdivisions"
+				},
+				MapVisibilityNest = BeginNest {
+					ICS_ControlPage = "Map",
+					LINKS_Name = "Tile Visibility",
+				},
+				OverviewVisibility = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					IC_Steps = 0,
+					INP_MaxScale = 1,
+					INP_Default = 1,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Map",
+					ICD_Center = 0.5,
+					LINKS_Name = "Overview"
+				},
+				OverviewWithDetailedVisibility = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					IC_Steps = 0,
+					INP_MaxScale = 1,
+					INP_Default = 1,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Map",
+					ICD_Center = 0.5,
+					LINKS_Name = "Overview (with detailed)"
+				},
+				DetailedVisibility = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					IC_Steps = 0,
+					INP_MaxScale = 1,
+					INP_Default = 1,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Map",
+					ICD_Center = 0.5,
+					LINKS_Name = "Detailed"
+				},
+				EndMapVisibilityNest = EndNest {
+				},			
+			}
+		}
+	},
+	ActiveTool = "Map"
+}

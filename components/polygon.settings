@@ -1,0 +1,33 @@
+﻿{
+	Tools = ordered() {
+		Polygon34 = PolylineMask {
+			DrawMode = "ClickAppend",
+			DrawMode2 = "InsertAndModify",
+			CtrlWZoom = false,
+			Inputs = {
+				Filter = Input { Value = FuID { "Fast Gaussian" }, },
+				MaskWidth = Input { Value = 1920, },
+				MaskHeight = Input { Value = 1080, },
+				PixelAspect = Input { Value = { 1, 1 }, },
+				UseFrameFormatSettings = Input { Value = 1, },
+				ClippingMode = Input { Value = FuID { "None" }, },
+				Polyline = Input {
+					Value = Polyline {
+						Points = {
+							{ Linear = true, X = -0.349593495934959, Y = 0.134615384615385, RX = 0.136856368563686, RY = 0.00400641025641028 },
+							{ Linear = true, X = 0.0609756097560976, Y = 0.146634615384615, LX = -0.136856368563686, LY = -0.00400641025641028, RX = 0.0998193315266486, RY = 0.000801282051282048 },
+							{ Linear = true, X = 0.360433604336043, Y = 0.149038461538462, LX = -0.0998193315266486, LY = -0.000801282051282048 }
+						}
+					},
+				},
+				Polyline2 = Input {
+					Value = Polyline {
+					},
+					Disabled = true,
+				}
+			},
+			ViewInfo = OperatorInfo { Pos = { 4600.94, 3072.32 } },
+		}
+	},
+	ActiveTool = "Polygon34"
+}

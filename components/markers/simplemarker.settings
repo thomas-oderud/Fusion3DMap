@@ -1,0 +1,1034 @@
+{
+	Tools = ordered() {
+		SimpleMarker = GroupOperator {
+			CtrlWZoom = false,
+			NameSet = true,
+			Inputs = ordered() {
+				IconShapeInput = InstanceInput {
+					SourceOp = "IconInputController",
+					Source = "Input",
+				}
+			},
+			Outputs = {
+				Output1 = InstanceOutput {
+					SourceOp = "MergeMarker",
+					Source = "Output",
+				}
+			},
+			ViewInfo = GroupInfo {
+				Pos = { 2640, 82.5 },
+				Flags = {
+					AllowPan = false,
+					GridSnap = true,
+					ConnectedSnap = true,
+					RemoveRouters = true
+				},
+				Size = { 676, 297.364, 338, 24.2424 },
+				Direction = "Horizontal",
+				PipeStyle = "Direct",
+				Scale = 1,
+				Offset = { -2860, 58.1364 }
+			},
+			Tools = ordered() {
+				MergeSign = sMerge {
+					NameSet = true,
+					Inputs = {
+						Input1 = Input {
+							SourceOp = "sMerge1",
+							Source = "Output",
+						},
+						Input2 = Input {
+							SourceOp = "SignPin",
+							Source = "Output",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 3135, 115.5 } },
+				},
+				ExtrudeSign = Extrude3D {
+					NameSet = true,
+					Inputs = {
+						["Transform3DOp.Translate.Z"] = Input {
+							Value = -0.0094,
+							Expression = "-ExtrusionDepth-0.001",
+						},
+						ShapeInput = Input {
+							SourceOp = "MergeSign",
+							Source = "Output",
+						},
+						ExtrusionProfile = Input {
+							SourceOp = "ExtrudeSignExtrusionProfile",
+							Source = "Value",
+						},
+						ExtrusionDepth = Input { Value = 0.0084, },
+						ExtrusionSubdivisions = Input { Value = 10, },
+						["MtlStdInputs.Specular.Nest"] = Input { Value = 1, },
+						["MtlStdInputs.MaterialID"] = Input { Value = 1, }
+					},
+					ViewInfo = OperatorInfo { Pos = { 3135, 148.5 } },
+				},
+				sMerge1 = sMerge {
+					Inputs = {
+						Input1 = Input {
+							SourceOp = "Sign",
+							Source = "Output",
+						},
+						Input2 = Input {
+							SourceOp = "SignLeftSquare",
+							Source = "Output",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 3135, 82.5 } },
+				},
+				Sign = sRectangle {
+					NameSet = true,
+					Inputs = {
+						["Translate.X"] = Input {
+							Value = 0.14,
+							Expression = "Width/2",
+						},
+						["Translate.Y"] = Input {
+							Value = 0.35,
+							Expression = "SignPin.Translate.Y*2-Height/2",
+						},
+						Width = Input { Expression = "SignWidth", },
+						Height = Input { Expression = "SignHeight", },
+						Red = Input { Expression = "PlaceBoxBackgroundColorRed", },
+						Green = Input { Expression = "PlaceBoxBackgroundColorGreen", },
+						Blue = Input { Expression = "PlaceBoxBackgroundColorBlue", },
+						Alpha = Input { Expression = "PlaceBoxBackgroundColorAlpha", },
+					},
+					ViewInfo = OperatorInfo { Pos = { 3135, 49.5 } },
+				},
+				MergeMarker = Merge3D {
+					NameSet = true,
+					Inputs = {
+						["Transform3DOp.PivotNest"] = Input { Value = 1, },
+						["Transform3DOp.Scale.X"] = Input {
+							Value = 0.277,
+							Expression = "Size",
+						},
+						["Transform3DOp.Translate.X"] = Input { Expression = "TranslationX", },
+						["Transform3DOp.Translate.Y"] = Input { Expression = "TranslationY", },
+						["Transform3DOp.Translate.Z"] = Input { Expression = "TranslationZ", },
+						["Transform3DOp.UseTarget"] = Input { Value = 1, },
+						["Transform3DOp.Target.X"] = Input { Expression = "TargetX", },
+						["Transform3DOp.Target.Y"] = Input { Expression = "TargetY", },
+						["Transform3DOp.Target.Z"] = Input { Expression = "TargetZ", },
+						SceneInput1 = Input {
+							SourceOp = "ExtrudeText",
+							Source = "Output",
+						},
+						SceneInput2 = Input {
+							SourceOp = "ExtrudeSign",
+							Source = "Output",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 3135, 181.5 } },
+				},
+				SignLeftSquare = sRectangle {
+					NameSet = true,
+					Inputs = {
+						["Translate.X"] = Input {
+							Value = 0.33,
+							Expression = "Sign.Width+(Width/2)",
+						},
+						["Translate.Y"] = Input {
+							Value = 0.35,
+							Expression = "SignPin.Translate.Y*2-Height/2",
+						},
+						Width = Input {
+							Value = 0.1,
+							Expression = "Height",
+						},
+						Height = Input {
+							Value = 0.1,
+							Expression = "Sign.Height",
+						},
+						Red = Input { Expression = "IconBackgroundColorRed", },
+						Green = Input { Expression = "IconBackgroundColorGreen", },
+						Blue = Input { Expression = "IconBackgroundColorBlue", },
+						Alpha = Input { Expression = "IconBackgroundColorAlpha", },
+					},
+					ViewInfo = OperatorInfo { Pos = { 3025, 49.5 } },
+				},
+				SignPin = sRectangle {
+					NameSet = true,
+					Inputs = {
+						["Translate.Y"] = Input {
+							Value = 0.2,
+							Expression = "Height/2",
+						},
+						Width = Input { Value = 0.005, },
+						Height = Input { Expression = "PinHeight", },
+						CornerRadius = Input { Value = 0.299, },
+						Red = Input { Expression = "PinColorRed", },
+						Green = Input { Expression = "PinColorGreen", },
+						Blue = Input { Expression = "PinColorBlue", },
+						Alpha = Input { Expression = "PinColorAlpha", },
+					},
+					ViewInfo = OperatorInfo { Pos = { 3025, 82.5 } },
+				},
+				ExtrudeText = Extrude3D {
+					NameSet = true,
+					Inputs = {
+						ShapeInput = Input {
+							SourceOp = "MergeText",
+							Source = "Output",
+						},
+						ExtrusionProfile = Input {
+							SourceOp = "ExtrudeTextExtrusionProfile",
+							Source = "Value",
+						},
+						ExtrusionDepth = Input { Value = 0.0019, },
+						["MtlStdInputs.MaterialID"] = Input { Value = 2, }
+					},
+					ViewInfo = OperatorInfo { Pos = { 3025, 181.5 } },
+				},
+				IconPlace = sTransform {
+					NameSet = true,
+					Inputs = {
+						XOffset = Input {
+							Value = 0.33,
+							Expression = "SignLeftSquare.Translate.X",
+						},
+						YOffset = Input {
+							Value = 0.35,
+							Expression = "SignLeftSquare.Translate.Y",
+						},
+						XSize = Input { Expression = "IconSize", },
+						YSize = Input {
+							Value = 0.074,
+							Expression = "XSize",
+						},
+						Input = Input {
+							SourceOp = "SetIconColor",
+							Source = "Output",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 2970, 115.5 } },
+				},
+				MergeText = sMerge {
+					NameSet = true,
+					Inputs = {
+						Input1 = Input {
+							SourceOp = "MainText",
+							Source = "Output",
+						},
+						Input2 = Input {
+							SourceOp = "Description",
+							Source = "Output",
+						},
+						Input3 = Input {
+							SourceOp = "IconPlace",
+							Source = "Output",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 2915, 181.5 } },
+				},
+				SetIconColor = sChangeStyle {
+					NameSet = true,
+					Inputs = {
+						Input = Input {
+							SourceOp = "sMerge2",
+							Source = "Output",
+						},
+						Red = Input { Expression = "IconColorRed", },
+						Green = Input { Expression = "IconColorGreen", },
+						Blue = Input { Expression = "IconColorBlue", },
+						Alpha = Input { Expression = "IconColorAlpha", },
+					},
+					ViewInfo = OperatorInfo { Pos = { 2860, 115.5 } },
+				},
+				Description = sText {
+					NameSet = true,
+					Inputs = {
+						Center = Input {
+							Value = { 0.03, 0.333333333333333 },
+							Expression = "Point(Sign.Translate.X-(Sign.Width/2)+0.03, Sign.Translate.Y-Sign.Height/6)",
+						},
+						LayoutRotation = Input { Value = 1, },
+						TransformRotation = Input { Value = 1, },
+						Red1 = Input { Expression = "InfoColorRed", },
+						Green1 = Input { Expression = "InfoColorGreen", },
+						Blue1 = Input { Expression = "InfoColorBlue", },
+						Alpha1 = Input { Expression = "InfoColorAlpha", },
+						StyledText = Input { Expression = "InfoText", },
+						Font = Input { Expression = "InfoFont", },
+						Style = Input { Expression = "InfoFontStyle", },
+						Size = Input { Expression = "InfoSize", },
+						VerticalJustificationNew = Input { Value = 3, },
+						HorizontalLeftCenterRight = Input { Value = -1, },
+						HorizontalJustificationNew = Input { Value = 3, }
+					},
+					ViewInfo = OperatorInfo { Pos = { 2750, 181.5 } },
+				},
+				IconCol = GroupOperator {
+					NameSet = true,
+					Outputs = {
+						Output1 = InstanceOutput {
+							SourceOp = "sBoolean2",
+							Source = "Output",
+						}
+					},
+					ViewInfo = GroupInfo {
+						Pos = { 2750, -49.5 },
+						Flags = {
+							AllowPan = false,
+							GridSnap = true,
+							ConnectedSnap = true,
+							RemoveRouters = true
+						},
+						Size = { 498.333, 171.152, 145.5, 24.2424 },
+						Direction = "Horizontal",
+						PipeStyle = "Direct",
+						Scale = 1,
+						Offset = { -2117.5, -106.864 }
+					},
+					Tools = ordered() {
+						sBoolean1 = sBoolean {
+							Inputs = {
+								Operation = Input { Value = FuID { "Subtract" }, },
+								Input1 = Input {
+									SourceOp = "path1_43_1",
+									Source = "Output",
+								},
+								Input2 = Input {
+									SourceOp = "path1_23_1",
+									Source = "Output",
+								}
+							},
+							ViewInfo = OperatorInfo { Pos = { 2200, 148.5 } },
+						},
+						sBoolean2 = sBoolean {
+							Inputs = {
+								Operation = Input { Value = FuID { "Subtract" }, },
+								Input1 = Input {
+									SourceOp = "sBoolean1",
+									Source = "Output",
+								},
+								Input2 = Input {
+									SourceOp = "path1_33_1",
+									Source = "Output",
+								}
+							},
+							ViewInfo = OperatorInfo { Pos = { 2200, 181.5 } },
+						},
+						path1_33_1 = sPolygon {
+							DrawMode = "ModifyOnly",
+							Inputs = {
+								PaintMode = Input { Value = FuID { "Invert" }, },
+								MaskWidth = Input { Value = 320, },
+								PixelAspect = Input {
+									Value = Point {
+										X = 1,
+										Y = 1
+									},
+								},
+								MaskHeight = Input { Value = 240, },
+								Polyline2 = Input {
+									Value = Polyline {
+									},
+								},
+								JoinStyle = Input { Value = 2, },
+								MiterLimit = Input { Value = 4, },
+								CapStyle = Input { Value = 0, },
+								Polyline = Input {
+									Value = Polyline {
+										Closed = true,
+										Points = {
+											{ Linear = true, X = -0.28125, Y = -0.325, LX = 0.034375, LY = 0.0722222222222222, RX = 0.1875, RY = 0 },
+											{ Linear = true, X = 0.28125, Y = -0.325, LX = -0.1875, LY = 0, RX = -0.034375, RY = 0.0725694444444445 },
+											{ Linear = true, X = 0.178125, Y = -0.107291666666667, LX = 0.034375, LY = -0.0725694444444445, RX = -0.0319444444444444, RY = -0.0201388888888889 },
+											{ Linear = true, X = 0.0822916666666667, Y = -0.167708333333333, LX = 0.0319444444444444, LY = 0.0201388888888889, RX = -0.0274305555555556, RY = 0.0128472222222222 },
+											{ Linear = true, X = 0, Y = -0.129166666666667, LX = 0.0274305555555555, LY = -0.0128472222222222, RX = -0.0274305555555556, RY = -0.0128472222222222 },
+											{ Linear = true, X = -0.0822916666666667, Y = -0.167708333333333, LX = 0.0274305555555555, LY = 0.0128472222222222, RX = -0.0319444444444445, RY = 0.0197916666666667 },
+											{ Linear = true, X = -0.178125, Y = -0.108333333333333, LX = 0.0319444444444444, LY = -0.0197916666666667, RX = -0.034375, RY = -0.0722222222222222 }
+										}
+									},
+								}
+							},
+							ViewInfo = OperatorInfo { Pos = { 2035, 181.5 } },
+						},
+						path1_23_1 = sPolygon {
+							DrawMode = "ModifyOnly",
+							Inputs = {
+								PaintMode = Input { Value = FuID { "Invert" }, },
+								MaskWidth = Input { Value = 320, },
+								PixelAspect = Input {
+									Value = Point {
+										X = 1,
+										Y = 1
+									},
+								},
+								MaskHeight = Input { Value = 240, },
+								Polyline2 = Input {
+									Value = Polyline {
+									},
+								},
+								JoinStyle = Input { Value = 2, },
+								MiterLimit = Input { Value = 4, },
+								CapStyle = Input { Value = 0, },
+								Polyline = Input {
+									Value = Polyline {
+										Closed = true,
+										Points = {
+											{ Linear = true, X = -0.144791666666667, Y = -0.0395833333333334, LX = 0.0140868055555555, LY = 0.0298611111111112, RX = 0.0225694444444444, RY = -0.0142361111111111 },
+											{ X = -0.0770833333333333, Y = -0.0822916666666667, LX = -0.0225694444444445, LY = 0.0142361111111111, RX = 0.0256944444444445, RY = 0.0121527777777778 },
+											{ X = 0, Y = -0.0458333333333333, LX = -0.0256944444444445, LY = -0.0121527777777778, RX = 0.0256944444444445, RY = -0.0121527777777778 },
+											{ X = 0.0770833333333333, Y = -0.0822916666666667, LX = -0.0256944444444444, LY = 0.0121527777777778, RX = 0.0225694444444444, RY = 0.0145833333333333 },
+											{ X = 0.144791666666667, Y = -0.0385416666666667, LX = -0.0225694444444444, LY = -0.0145833333333333, RX = -0.0142361111111111, RY = 0.0295138888888889 },
+											{ X = 0.102083333333333, Y = 0.05, LX = 0.0142361111111111, LY = -0.029513888888889, RX = -0.0682048611111111, RY = 0 },
+											{ Linear = true, X = -0.10253125, Y = 0.05, LX = 0.0682048611111111, LY = 0, RX = -0.0140868055555555, RY = -0.0298611111111112 }
+										}
+									},
+								}
+							},
+							ViewInfo = OperatorInfo { Pos = { 2035, 148.5 } },
+						},
+						path1_43_1 = sPolygon {
+							DrawMode = "ModifyOnly",
+							Inputs = {
+								PaintMode = Input { Value = FuID { "Invert" }, },
+								MaskWidth = Input { Value = 320, },
+								PixelAspect = Input {
+									Value = Point {
+										X = 1,
+										Y = 1
+									},
+								},
+								MaskHeight = Input { Value = 240, },
+								Polyline2 = Input {
+									Value = Polyline {
+									},
+								},
+								JoinStyle = Input { Value = 2, },
+								MiterLimit = Input { Value = 4, },
+								CapStyle = Input { Value = 0, },
+								Polyline = Input {
+									Value = Polyline {
+										Closed = true,
+										Points = {
+											{ Linear = true, X = -0.4, Y = -0.4, LX = 0.266666666666667, LY = 0, RX = 0.0763888888888889, RY = 0.160763888888889 },
+											{ Linear = true, X = -0.170833333333333, Y = 0.0822916666666667, LX = -0.0763888888888889, LY = -0.160763888888889, RX = 0.00624999999999998, RY = 0.0131944444444444 },
+											{ X = -0.143114583333333, Y = 0.113541666666667, LX = -0.0122291666666667, LY = -0.00763888888888897, RX = 0.0122361111111111, RY = 0.00763888888888897 },
+											{ X = -0.103125, Y = 0.125, LX = -0.0144236111111111, LY = 0, RX = 0.021875, RY = 0 },
+											{ Linear = true, X = -0.0375, Y = 0.125, LX = -0.021875, LY = 0, RX = 0, RY = 0.0916666666666667 },
+											{ Linear = true, X = -0.0375, Y = 0.4, LX = 0, LY = -0.0916666666666667, RX = 0.0791666666666667, RY = 0 },
+											{ Linear = true, X = 0.2, Y = 0.4, LX = -0.0791666666666666, LY = 0, RX = -0.0166666666666666, RY = -0.025 },
+											{ Linear = true, X = 0.15, Y = 0.325, LX = 0.0166666666666666, LY = 0.025, RX = 0.0166666666666666, RY = -0.0249999999999999 },
+											{ Linear = true, X = 0.2, Y = 0.25, LX = -0.0166666666666666, LY = 0.025, RX = -0.0541666666666666, RY = 0 },
+											{ Linear = true, X = 0.0375, Y = 0.25, LX = 0.0541666666666667, LY = 0, RX = 0, RY = -0.0416666666666666 },
+											{ Linear = true, X = 0.0375, Y = 0.125, LX = 0, LY = 0.0416666666666666, RX = 0.021875, RY = 0 },
+											{ Linear = true, X = 0.103125, Y = 0.125, LX = -0.021875, LY = 0, RX = 0.0146597222222222, RY = 0 },
+											{ X = 0.143291666666667, Y = 0.113541666666667, LX = -0.0121180555555556, LY = 0.00763888888888897, RX = 0.0121111111111111, RY = -0.00763888888888897 },
+											{ X = 0.170833333333333, Y = 0.0822916666666667, LX = -0.00624999999999998, LY = 0.0131944444444444, RX = 0.076388888888889, RY = -0.160763888888889 },
+											{ Linear = true, X = 0.4, Y = -0.4, LX = -0.076388888888889, LY = 0.160763888888889, RX = -0.266666666666667, RY = 0 }
+										}
+									},
+								}
+							},
+							ViewInfo = OperatorInfo { Pos = { 2035, 115.5 } },
+						}
+					},
+				},
+				ColIconInputController = sExpand {
+					Inputs = {
+						Input = Input {
+							SourceOp = "sBoolean2",
+							Source = "Output",
+						},
+						Amount = Input { Expression = "iif(IconChoice == 0,0.0,-0.5)", }
+					},
+					ViewInfo = OperatorInfo { Pos = { 2750, -16.5 } },
+				},
+				sMerge2 = sMerge {
+					Inputs = {
+						Input2 = Input {
+							SourceOp = "ColIconInputController",
+							Source = "Output",
+						},
+						Input3 = Input {
+							SourceOp = "IconInputController",
+							Source = "Output",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 2750, 82.5 } },
+				},
+				MainText = sText {
+					NameSet = true,
+					Inputs = {
+						Center = Input {
+							Value = { 0.03, 0.366666666666667 },
+							Expression = "Point(Sign.Translate.X-(Sign.Width/2)+0.03, Sign.Translate.Y+Sign.Height/6)",
+						},
+						LayoutRotation = Input { Value = 1, },
+						TransformRotation = Input { Value = 1, },
+						Red1 = Input { Expression = "PlaceColorRed", },
+						Green1 = Input { Expression = "PlaceColorGreen", },
+						Blue1 = Input { Expression = "PlaceColorBlue", },
+						Alpha1 = Input { Expression = "PlaceColorAlpha", },
+						StyledText = Input { Expression = "PlaceText", },
+						Font = Input { Expression = "PlaceFont", },
+						Style = Input { Expression = "PlaceFontStyle", },
+						Size = Input { Expression = "PlaceSize", },
+						VerticalJustificationNew = Input { Value = 3, },
+						HorizontalLeftCenterRight = Input { Value = -1, },
+						HorizontalJustificationNew = Input { Value = 3, }
+					},
+					ViewInfo = OperatorInfo { Pos = { 2750, 148.5 } },
+				},
+				IconInputController = sExpand {
+					Inputs = {
+						Amount = Input { Expression = "iif(IconChoice == 1,0.0,-0.5)", }
+					},
+					ViewInfo = OperatorInfo { Pos = { 2585, 82.5 } },
+				}
+			},
+		
+	UserControls = ordered() {
+				Place = ControlPage { CTID_DIB_ID = "Icons.Tools.Tabs.Text", CTS_Name = "Place" },
+				Info = ControlPage { CTID_DIB_ID = "Icons.Tools.Tabs.Text", CTS_Name = "Info" },
+				Icon = ControlPage { CTID_DIB_ID = "Icons.Tools.Tabs.Image", CTS_Name = "Icon" },
+				Controls = ControlPage { CTID_DIB_ID = "Icons.Tools.Tabs.Controls", CTS_Name = "Controls" },
+				PlaceNest = BeginNest {
+					LINKS_Name = "Text",
+					ICS_ControlPage = "Place",
+				},
+				PlaceText = {
+					ICD_Width = 0.9,
+					INPID_InputControl = "TextEditControl",
+					TEC_Lines = 1,
+					TEC_Wrap = false,
+					INP_External = false,
+					INPS_DefaultText = "This is the place",
+					TEC_ReadOnly = false,
+					LINKID_DataType = "Text",
+					ICS_ControlPage = "Place",
+					LINKS_Name = "Text",
+				},
+				PlaceFont = {
+					IC_ControlGroup = 2,
+					INPS_DefaultText = "Arial",
+					INPID_InputControl = "FontFileControl",
+					LINKID_DataType = "Text",
+					IC_ControlID = 0,
+					ICS_ControlPage = "Place",
+					NumSlots = 1,
+					LINKS_Name = "Font",
+				},
+				PlaceFontStyle = {
+					ICS_ControlPage = "Place",
+					LINKID_DataType = "Text",
+					INPS_DefaultText = "Regular",
+					IC_ControlID = 1,
+					INPID_InputControl = "FontFileControl",
+					NumSlots = 1,
+					IC_ControlGroup = 2,
+				},
+				PlaceSize = {
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 0.15,
+					INP_Default = 0.04,
+					INP_MinScale = 0,
+					LINKID_DataType = "Number",
+					ICD_Center = 0.04,
+					ICS_ControlPage = "Place",
+					LINKS_Name = "Size",
+				},
+				PlaceColorRed = {
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 3,
+					INP_MinScale = 0,
+					CLRC_ShowWheel = false,
+					LINKID_DataType = "Number",
+					IC_ControlID = 0,
+					INP_Default = 1,
+					ICS_ControlPage = "Place",
+					LINKS_Name = "Color",
+				},
+				PlaceColorGreen = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Place",
+					LINKID_DataType = "Number",
+					IC_ControlID = 1,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 3,
+				},
+				PlaceColorBlue = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Place",
+					LINKID_DataType = "Number",
+					IC_ControlID = 2,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 3,
+				},
+				PlaceColorAlpha = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Place",
+					LINKID_DataType = "Number",
+					IC_ControlID = 3,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 3,
+				},
+				EndPlaceNest = EndNest {
+				},
+				PlaceBoxBackgroundNest = BeginNest {
+					LINKS_Name = "Background",
+					ICS_ControlPage = "Place",
+				},
+				PlaceBoxBackgroundColorRed = {
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 4,
+					INP_MinScale = 0,
+					CLRC_ShowWheel = false,
+					LINKID_DataType = "Number",
+					IC_ControlID = 0,
+					INP_Default = 0.88,
+					ICS_ControlPage = "Place",
+					LINKS_Name = "Color",
+				},
+				PlaceBoxBackgroundColorGreen = {
+					INP_Default = 0.78,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Place",
+					LINKID_DataType = "Number",
+					IC_ControlID = 1,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 4,
+				},
+				PlaceBoxBackgroundColorBlue = {
+					INP_Default = 0.38,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Place",
+					LINKID_DataType = "Number",
+					IC_ControlID = 2,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 4,
+				},
+				PlaceBoxBackgroundColorAlpha = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Place",
+					LINKID_DataType = "Number",
+					IC_ControlID = 3,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 4,
+				},
+				EndPlaceBoxBackgroundNest = EndNest {
+				},
+				
+				InfoNest = BeginNest {
+					LINKS_Name = "Text",
+					ICS_ControlPage = "Info",
+				},
+				InfoText = {
+					ICD_Width = 0.9,
+					INPID_InputControl = "TextEditControl",
+					TEC_Lines = 1,
+					TEC_Wrap = false,
+					INP_External = false,
+					INPS_DefaultText = "Description",
+					TEC_ReadOnly = false,
+					LINKID_DataType = "Text",
+					ICS_ControlPage = "Info",
+					LINKS_Name = "Text",
+				},
+				InfoFont = {
+					IC_ControlGroup = 2,
+					INPS_DefaultText = "Arial",
+					INPID_InputControl = "FontFileControl",
+					LINKID_DataType = "Text",
+					IC_ControlID = 0,
+					ICS_ControlPage = "Info",
+					NumSlots = 1,
+					LINKS_Name = "Font",
+				},
+				InfoFontStyle = {
+					ICS_ControlPage = "Info",
+					LINKID_DataType = "Text",
+					INPS_DefaultText = "Regular",
+					IC_ControlID = 1,
+					INPID_InputControl = "FontFileControl",
+					NumSlots = 1,
+					IC_ControlGroup = 2,
+				},
+				InfoSize = {
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 0.15,
+					INP_Default = 0.0315,
+					INP_MinScale = 0,
+					LINKID_DataType = "Number",
+					ICD_Center = 0.0315,
+					ICS_ControlPage = "Info",
+					LINKS_Name = "Size",
+				},
+				InfoColorRed = {
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 3,
+					INP_MinScale = 0,
+					CLRC_ShowWheel = false,
+					LINKID_DataType = "Number",
+					IC_ControlID = 0,
+					INP_Default = 1,
+					ICS_ControlPage = "Info",
+					LINKS_Name = "Color",
+				},
+				InfoColorGreen = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Info",
+					LINKID_DataType = "Number",
+					IC_ControlID = 1,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 3,
+				},
+				InfoColorBlue = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Info",
+					LINKID_DataType = "Number",
+					IC_ControlID = 2,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 3,
+				},
+				InfoColorAlpha = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Info",
+					LINKID_DataType = "Number",
+					IC_ControlID = 3,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 3,
+				},
+				EndInfoNest = EndNest {
+				},
+				
+				
+				IconNest = BeginNest {
+					LINKS_Name = "Icon",
+					ICS_ControlPage = "Icon",
+				},
+				IconChoice = {
+					{ CCS_AddString = "Col" },
+					{ CCS_AddString = "Other" },
+					INP_Integer = false,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Icon",
+					CC_LabelPosition = "Horizontal",
+					INPID_InputControl = "ComboControl",
+					LINKS_Name = "Type",
+				},
+				IconSize = {
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 1,
+					INP_Default = 0.06,
+					INP_MinScale = 0,
+					LINKID_DataType = "Number",
+					ICD_Center = 1,
+					ICS_ControlPage = "Icon",
+					LINKS_Name = "Size",
+				},
+				IconColorRed = {
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 10,
+					INP_MinScale = 0,
+					CLRC_ShowWheel = false,
+					LINKID_DataType = "Number",
+					IC_ControlID = 0,
+					INP_Default = 1,
+					ICS_ControlPage = "Icon",
+					LINKS_Name = "Color",
+				},
+				IconColorGreen = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Icon",
+					LINKID_DataType = "Number",
+					IC_ControlID = 1,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 10,
+				},
+				IconColorBlue = {
+					IC_ControlGroup = 10,
+					INP_MinScale = 0,
+					INPID_InputControl = "ColorControl",
+					ICS_ControlPage = "Icon",
+					IC_ControlID = 2,
+					LINKID_DataType = "Number",
+					INP_MaxScale = 1,
+					INP_Default = 1,
+				},
+				IconColorAlpha = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Icon",
+					LINKID_DataType = "Number",
+					IC_ControlID = 3,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 10,
+				},
+				EndIconNest = EndNest {
+				},
+				IconBackgroundNest = BeginNest {
+					LINKS_Name = "Background",
+					ICS_ControlPage = "Icon",
+				},
+				IconBackgroundColorRed = {
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 11,
+					INP_MinScale = 0,
+					CLRC_ShowWheel = false,
+					LINKID_DataType = "Number",
+					IC_ControlID = 0,
+					INP_Default = 0.88,
+					ICS_ControlPage = "Icon",
+					LINKS_Name = "Color",
+				},
+				IconBackgroundColorGreen = {
+					INP_Default = 0.78,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Icon",
+					LINKID_DataType = "Number",
+					IC_ControlID = 1,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 11,
+				},
+				IconBackgroundColorBlue = {
+					IC_ControlGroup = 11,
+					INP_MinScale = 0,
+					INPID_InputControl = "ColorControl",
+					ICS_ControlPage = "Icon",
+					IC_ControlID = 2,
+					LINKID_DataType = "Number",
+					INP_MaxScale = 1,
+					INP_Default = 0.38,
+				},
+				IconBackgroundColorAlpha = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Icon",
+					LINKID_DataType = "Number",
+					IC_ControlID = 3,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 11,
+				},
+				EndIconBackgroundNest = EndNest {
+				},
+				
+				Size = {
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 4,
+					INP_Default = 0.277,
+					INP_MinScale = 0,
+					LINKID_DataType = "Number",
+					ICD_Center = 0.277,
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Size",
+				},
+				
+				SignSizeNest = BeginNest {
+					LINKS_Name = "Sign",
+					ICS_ControlPage = "Controls",
+				},
+				SignHeight = {
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 1,
+					INP_Default = 0.1,
+					INP_MinScale = 0,
+					LINKID_DataType = "Number",
+					ICD_Center = 0.1,
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Height",
+				},
+				SignWidth = {
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 1,
+					INP_Default = 0.3,
+					INP_MinScale = 0,
+					LINKID_DataType = "Number",
+					ICD_Center = 0.3,
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Width",
+				},
+				
+				
+				EndSignSizeNest = EndNest {
+				},
+				
+				SignTranslationNest = BeginNest {
+					LINKS_Name = "Translation",
+					ICS_ControlPage = "Controls",
+				},
+				TranslationX = {
+					INP_Integer = false,
+					INPID_InputControl = "ScrewControl",
+					INP_Default = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "X",
+				},
+				TranslationY = {
+					INP_Integer = false,
+					INPID_InputControl = "ScrewControl",
+					INP_Default = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Y",
+				},
+				TranslationZ = {
+					INP_Integer = false,
+					INPID_InputControl = "ScrewControl",
+					INP_Default = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Z",
+				},
+				EndSignTranslationNest = EndNest {
+				},
+				SignTargetNest = BeginNest {
+					LINKS_Name = "Target",
+					ICS_ControlPage = "Controls",
+				},
+				TargetX = {
+					INP_Integer = false,
+					INPID_InputControl = "ScrewControl",
+					INP_Default = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "X",
+				},
+				TargetY = {
+					INP_Integer = false,
+					INPID_InputControl = "ScrewControl",
+					INP_Default = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Y",
+				},
+				TargetZ = {
+					INP_Integer = false,
+					INPID_InputControl = "ScrewControl",
+					INP_Default = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Z",
+				},
+				EndSignTargetNest = EndNest {
+				},
+				
+				PinNest = BeginNest {
+					LINKS_Name = "Pin",
+					ICS_ControlPage = "Controls",
+				},
+				PinHeight = {
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 2,
+					INP_Default = 0.35,
+					INP_MinScale = 0,
+					LINKID_DataType = "Number",
+					ICD_Center = 0.35,
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Height",
+				},
+				
+				PinColorRed = {
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 14,
+					INP_MinScale = 0,
+					CLRC_ShowWheel = false,
+					LINKID_DataType = "Number",
+					IC_ControlID = 0,
+					INP_Default = 0.88,
+					ICS_ControlPage = "Controls",
+					LINKS_Name = "Color",
+				},
+				PinColorGreen = {
+					INP_Default = 0.78,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Controls",
+					LINKID_DataType = "Number",
+					IC_ControlID = 1,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 14,
+				},
+				PinColorBlue = {
+					IC_ControlGroup = 14,
+					INP_MinScale = 0,
+					INPID_InputControl = "ColorControl",
+					ICS_ControlPage = "Controls",
+					IC_ControlID = 2,
+					LINKID_DataType = "Number",
+					INP_MaxScale = 1,
+					INP_Default = 0.38,
+				},
+				PinColorAlpha = {
+					INP_Default = 1,
+					INP_MinScale = 0,
+					ICS_ControlPage = "Controls",
+					LINKID_DataType = "Number",
+					IC_ControlID = 3,
+					INPID_InputControl = "ColorControl",
+					INP_MaxScale = 1,
+					IC_ControlGroup = 14,
+				},
+				
+				EndPinNest = EndNest {
+				},		
+			}
+		}
+	},
+	
+		ExtrudeSignExtrusionProfile = LUTBezier {
+			KeyColorSplines = {
+				[0] = {
+					[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+					[1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+				}
+			},
+			SplineColor = { Red = 192, Green = 128, Blue = 64 },
+			CtrlWZoom = false,
+		},
+		ExtrudeTextExtrusionProfile = LUTBezier {
+			KeyColorSplines = {
+				[0] = {
+					[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+					[1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+				}
+			},
+			SplineColor = { Red = 192, Green = 128, Blue = 64 },
+			CtrlWZoom = false,
+			NameSet = true,
+		},
+	
+	ActiveTool = "SimpleMarker"
+}

@@ -1,0 +1,351 @@
+{
+	Tools = ordered() {
+		AltaVia = GroupOperator {
+			CtrlWZoom = false,
+			NameSet = true,
+			Inputs = ordered() {
+				Red = InstanceInput {
+					SourceOp = "Background4",
+					Source = "TopLeftRed",
+				},
+				Green = InstanceInput {
+					SourceOp = "Background4",
+					Source = "TopLeftGreen",
+				},
+				Blue = InstanceInput {
+					SourceOp = "Background4",
+					Source = "TopLeftBlue",
+				},
+				Alpha = InstanceInput {
+					SourceOp = "Background4",
+					Source = "TopLeftAlpha",
+				},
+				UseFrameFormatSettings = InstanceInput {
+					SourceOp = "Background4",
+					Source = "UseFrameFormatSettings",
+				},
+				Width = InstanceInput {
+					SourceOp = "Background4",
+					Source = "Width",
+				},
+				Height = InstanceInput {
+					SourceOp = "Background4",
+					Source = "Height",
+				},
+				Depth = InstanceInput {
+					SourceOp = "Background4",
+					Source = "Depth",
+				}
+			},
+			Outputs = {
+				Output1 = InstanceOutput {
+					SourceOp = "Merge4",
+					Source = "Output",
+				}
+			},
+			ViewInfo = GroupInfo {
+				Pos = { 2530, -148.5 },
+				Flags = {
+					Expanded = true,
+					AllowPan = false,
+					GridSnap = true,
+					ConnectedSnap = true,
+					RemoveRouters = true
+				},
+				Size = { 598.788, 260.364, 118, 24.2424 },
+				Direction = "Horizontal",
+				PipeStyle = "Direct",
+				Scale = 1,
+				Offset = { 0, 0 }
+			},
+			Tools = ordered() {
+				path1 = PolylineMask {
+					DrawMode = "ModifyOnly",
+					DrawMode2 = "InsertAndModify",
+					Inputs = {
+						BorderWidth = Input { Value = 0.0611333, },
+						Solid = Input { Value = 0, },
+						JoinStyle = Input { Value = 2, },
+						MiterLimit = Input { Value = 4, },
+						CapStyle = Input { Value = 0, },
+						MaskWidth = Input { Value = 320, },
+						MaskHeight = Input { Value = 240, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+						Center = Input { Value = { 0.490407048133595, 0.5057529455081 }, },
+						Polyline = Input {
+							Value = Polyline {
+								Closed = true,
+								Points = {
+									{ Linear = true, X = -0.0711083333333333, Y = 0.30031, LX = -0.103247916666667, LY = -0.168951944444445, RX = 0.0535520610149386, RY = 0.0934788839372553 },
+									{ X = 0.0711083333333333, Y = 0.30031, LX = -0.0516214040355365, LY = 0.0915491747521482, RX = 0.105522527622814, RY = -0.167131489374368 },
+									{ Linear = true, X = 0.387675916201777, Y = -0.201084468123104, LX = -0.105522527622814, LY = 0.167131489374368, RX = 0.0678393748502178, RY = -0.106872985900774 },
+									{ X = 0.307827242960052, Y = -0.333333333333333, LX = 0.112038289176267, LY = -0.00429949468598607, RX = -0.205857553208906, RY = 0 },
+									{ Linear = true, X = -0.309745416666667, Y = -0.333333333333333, LX = 0.205857553208906, LY = 0, RX = -0.112677300807684, RY = -0.00191764850269971 },
+									{ X = -0.380852083333333, Y = -0.206545833333333, LX = -0.0611960069019699, LY = -0.108061736298292, RX = 0.103247916666667, RY = 0.168951944444444 }
+								}
+							},
+						},
+						Polyline2 = Input {
+							Value = Polyline {
+							},
+							Disabled = true,
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } },
+				},
+				Background3 = Background {
+					Inputs = {
+						GlobalOut = Input { Value = 119, },
+						Width = InstanceInput {
+							SourceOp = "Background4",
+							Source = "Width",
+						},
+						Height = InstanceInput {
+							SourceOp = "Background4",
+							Source = "Height",
+						},
+						UseFrameFormatSettings = InstanceInput {
+							SourceOp = "Background4",
+							Source = "UseFrameFormatSettings",
+						},
+						Depth = InstanceInput {
+							SourceOp = "Background4",
+							Source = "Depth",
+						},
+						EffectMask = Input {
+							SourceOp = "Rectangle1_2",
+							Source = "Mask",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 148.5 } },
+				},
+				Merge4 = Merge {
+					Inputs = {
+						Background = Input {
+							SourceOp = "Merge5",
+							Source = "Output",
+						},
+						Foreground = Input {
+							SourceOp = "Text1",
+							Source = "Output",
+						},
+						Width = InstanceInput {
+							SourceOp = "Background4",
+							Source = "Width",
+						},
+						Height = InstanceInput {
+							SourceOp = "Background4",
+							Source = "Height",
+						},
+						UseFrameFormatSettings = InstanceInput {
+							SourceOp = "Background4",
+							Source = "UseFrameFormatSettings",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 148.5 } },
+				},
+				Rectangle1 = RectangleMask {
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" }, },
+						PaintMode = Input { Value = FuID { "Subtract" }, },
+						MaskWidth = Input { Value = 1920, },
+						MaskHeight = Input { Value = 1080, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+						UseFrameFormatSettings = Input { Value = 1, },
+						ClippingMode = Input { Value = FuID { "None" }, },
+						Center = Input { Value = { 0.704368246561887, 0.529234607935897 }, },
+						Height = Input { Value = 0.041, },
+						Angle = Input { Value = 30, },
+						EffectMask = Input {
+							SourceOp = "path1",
+							Source = "Mask",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 49.5 } },
+				},
+				Rectangle1_1 = RectangleMask {
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" }, },
+						PaintMode = Input { Value = FuID { "Subtract" }, },
+						MaskWidth = Input { Value = 1920, },
+						MaskHeight = Input { Value = 1080, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+						UseFrameFormatSettings = Input { Value = 1, },
+						ClippingMode = Input { Value = FuID { "None" }, },
+						Center = Input { Value = { 0.305500982318271, 0.514128360111994 }, },
+						Height = Input { Value = 0.041, },
+						Angle = Input { Value = -30, },
+						EffectMask = Input {
+							SourceOp = "Rectangle1",
+							Source = "Mask",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 82.5 } },
+				},
+				Rectangle1_2 = RectangleMask {
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" }, },
+						PaintMode = Input { Value = FuID { "Subtract" }, },
+						MaskWidth = Input { Value = 1920, },
+						MaskHeight = Input { Value = 1080, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+						UseFrameFormatSettings = Input { Value = 1, },
+						ClippingMode = Input { Value = FuID { "None" }, },
+						Center = Input { Value = { 0.492509823182712, 0.248385558474701 }, },
+						Height = Input { Value = 0.041, },
+						Angle = Input { Value = 90, },
+						EffectMask = Input {
+							SourceOp = "Rectangle1_1",
+							Source = "Mask",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 115.5 } },
+				},
+				Text1 = TextPlus {
+					Inputs = {
+						GlobalOut = Input { Value = 119, },
+						Width = Input { Value = 1920, },
+						Height = Input { Value = 1080, },
+						UseFrameFormatSettings = Input { Value = 1, },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" }, },
+						Center = Input { Value = { 0.49034671510299, 0.451399916819529 }, },
+						LayoutRotation = Input { Value = 1, },
+						TransformRotation = Input { Value = 1, },
+						Red1 = Input { Value = 0, },
+						Green1 = Input { Value = 0, },
+						Blue1 = Input { Value = 0, },
+						Softness1 = Input { Value = 1, },
+						StyledText = Input { Value = "1", },
+						Font = Input { Value = "Microsoft JhengHei UI", },
+						Style = Input { Value = "Bold", },
+						Size = Input { Value = 0.2807, },
+						VerticalJustificationNew = Input { Value = 3, },
+						HorizontalJustificationNew = Input { Value = 3, }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } },
+				},
+				Instance_path1 = PolylineMask {
+					DrawMode = "ModifyOnly",
+					DrawMode2 = "InsertAndModify",
+					SourceOp = "path1",
+					Inputs = {
+						SettingsNest = Input {
+						},
+						BorderWidth = Input {
+							Value = 0.0497333,
+						},
+						Solid = Input {
+						},
+						Polyline2 = Input { Disabled = true, },
+						CommentsNest = Input {
+						},
+						FrameRenderScriptNest = Input {
+						},
+						StartRenderScripts = Input {
+						},
+						EndRenderScripts = Input {
+						},
+						EffectMask = Input {
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 220, 16.5 } },
+				},
+				Background3_1 = Background {
+					Inputs = {
+						GlobalOut = Input { Value = 119, },
+						Width = Input { Value = 800, },
+						Height = Input { Value = 800, },
+						TopLeftRed = Input { Value = 0.996078491210938, },
+						TopLeftGreen = Input { Value = 0.69803923368454, },
+						TopLeftBlue = Input { Value = 0.21960785984993, },
+						EffectMask = Input {
+							SourceOp = "Instance_path1",
+							Source = "Mask",
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 220, 82.5 } },
+				},
+				Merge5 = Merge {
+					Inputs = {
+						Background = Input {
+							SourceOp = "Background3_1",
+							Source = "Output",
+						},
+						Foreground = Input {
+							SourceOp = "Background3",
+							Source = "Output",
+						},
+						PerformDepthMerge = Input { Value = 0, }
+					},
+					ViewInfo = OperatorInfo { Pos = { 220, 148.5 } },
+				}
+			},
+			UserControls = ordered() {
+				Color = ControlPage {
+					CTID_DIB_ID = "Icons.Tools.Tabs.Color"
+				},
+				BackgroundNest = BeginNest {
+					LINKS_Name = "Background",
+					ICS_ControlPage = "Color",
+				},
+				Red = InstanceInput {
+					SourceOp = "Background4",
+					INP_Default = 0,
+					ICS_ControlPage = "Color",
+					Source = "TopLeftRed",
+				},
+				Green = InstanceInput {
+					SourceOp = "Background4",
+					INP_Default = 0,
+					ICS_ControlPage = "Color",
+					Source = "TopLeftGreen",
+				},
+				Blue = InstanceInput {
+					SourceOp = "Background4",
+					INP_Default = 0,
+					ICS_ControlPage = "Color",
+					Source = "TopLeftBlue",
+				},
+				Alpha = InstanceInput {
+					SourceOp = "Background4",
+					INP_Default = 0,
+					ICS_ControlPage = "Color",
+					Source = "TopLeftAlpha",
+				},
+				EndBackgroundNest = EndNest {
+				},
+				Image = ControlPage {
+					CTID_DIB_ID = "Icons.Tools.Tabs.Image"
+				},
+				ImageNest = BeginNest {
+					LINKS_Name = "Image",
+					ICS_ControlPage = "Image",
+				},
+				UseFrameFormatSettings = InstanceInput {
+					SourceOp = "Background4",
+					ICS_ControlPage = "Image",
+					Source = "UseFrameFormatSettings",
+				},
+				Width = InstanceInput {
+					SourceOp = "Background4",
+					ICS_ControlPage = "Image",
+					Source = "Width",
+					INP_Default = 800,
+				},
+				Height = InstanceInput {
+					SourceOp = "Background4",
+					ICS_ControlPage = "Image",
+					Source = "Height",
+					INP_Default = 800,
+				},
+				Depth = InstanceInput {
+					SourceOp = "Background4",
+					ICS_ControlPage = "Image",
+					Source = "Depth",
+				},
+				EndImageNest = EndNest {
+				}
+			}
+		}
+	}
+}

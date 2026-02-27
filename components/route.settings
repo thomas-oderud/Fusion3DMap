@@ -1,0 +1,200 @@
+{
+	Tools = ordered() {
+		Route = MacroOperator {
+			CtrlWZoom = false,
+			CustomData = {
+				Path = {
+					Map = {
+						["Setting:"] = "Macros:\\"
+					}
+				},
+			},
+			Inputs = ordered() {
+				Progress = Input { Value = 1, },
+				routeRED = Input { Value = 0.333333333333333, },
+				routeGREEN = Input { Value = 0.666666666666667, },
+				RouteActualLength = Input { Value = 75, },
+				ProgressLength = Input { Expression = "Progress*RouteActualLength", },
+				ProgressText = Input { Expression = "Text(string.format(\"%.1f\", ProgressLength)..\" km\")", }
+			},
+			ViewInfo = GroupInfo {
+				Pos = { 1430, 82.5 },
+				Flags = {
+					Expanded = true,
+					AllowPan = false,
+					GridSnap = true,
+					ConnectedSnap = true,
+					RemoveRouters = true
+				},
+				Size = { 527.208, 220.871, 54.9375, 24.2424 },
+				Direction = "Horizontal",
+				PipeStyle = "Direct",
+				Scale = 1,
+				Offset = { 0, 0 }
+			},
+			Tools = ordered() {
+				Route = Custom {			
+					CtrlWZoom = false,			
+				},			
+			},
+			UserControls = ordered() {
+				Route = ControlPage { CTID_DIB_ID = "Icons.Tools.Tabs.Controls", CTS_Name = "Route" },
+				Progress = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 1,
+					INP_Default = 0,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Route",
+					ICD_Center = 0.5,
+					LINKS_Name = "Progress"
+				},
+				RouteColorNest = BeginNest {
+					ICS_ControlPage = "Route",
+					LINKS_Name = "Apperance",
+				},
+				routeRED = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "ColorControl",
+					CLRC_ColorSpace = "HSV",
+					ICS_ControlPage = "Route",
+					INP_MaxScale = 1,
+					INP_Default = 1,
+					INP_MinAllowed = 0,
+					INP_MinScale = 0,
+					INP_External = false,
+					LINKID_DataType = "Number",
+					IC_ControlID = 0,
+					CLRC_ShowWheel = false,
+					IC_ControlGroup = 1,
+					LINKS_Name = "Color"
+				},
+				routeGREEN = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "ColorControl",
+					CLRC_ColorSpace = "HSV",
+					INP_MaxScale = 1,
+					INP_Default = 1,
+					ICS_ControlPage = "Route",
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					IC_ControlID = 1,
+					CLRC_ShowWheel = false,
+					IC_ControlGroup = 1,
+					LINKS_Name = ""
+				},
+				routeBLUE = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "ColorControl",
+					CLRC_ColorSpace = "HSV",
+					ICS_ControlPage = "Route",
+					INP_MaxScale = 1,
+					INP_Default = 1,
+					INP_MinAllowed = 0,
+					INP_MinScale = 0,
+					INP_External = false,
+					LINKID_DataType = "Number",
+					IC_ControlID = 2,
+					CLRC_ShowWheel = false,
+					IC_ControlGroup = 1,
+					LINKS_Name = ""
+				},
+				routeALPHA = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "ColorControl",
+					CLRC_ColorSpace = "HSV",
+					INP_MaxScale = 1,
+					INP_Default = 1,
+					ICS_ControlPage = "Route",
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					IC_ControlID = 3,
+					IC_ControlGroup = 1,
+					CLRC_ShowWheel = false,
+					LINKS_Name = ""
+				},
+				Separator1 = {
+					INPID_InputControl = "SeparatorControl",
+					ICS_ControlPage = "Route",
+				},
+				BorderWidth = {
+					INP_MaxAllowed = 1,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 0.1,
+					INP_Default = 0,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Route",
+					ICD_Center = 0.005,
+					LINKS_Name = "Width"
+				},
+				GlowGain = {
+					
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					INP_MaxScale = 5,
+					INP_Default = 1.0,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Route",
+					ICD_Center = 2.0,
+					LINKS_Name = "Glow Gain"
+				},
+				
+				EndRouteColorNest = EndNest {
+				},
+				RouteInfoNest = BeginNest {
+					ICS_ControlPage = "Route",
+					LINKS_Name = "Info",
+				},
+				RouteActualLength = {
+					INP_MaxAllowed = 1000,
+					INP_Integer = false,
+					INPID_InputControl = "SliderControl",
+					IC_Steps = 0,
+					INP_MaxScale = 400,
+					INP_Default = 0,
+					INP_MinScale = 0,
+					INP_MinAllowed = 0,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Route",
+					ICD_Center = 200,
+					LINKS_Name = "Actual Length"
+				},
+				EndInfoNest = EndNest {
+				},
+				ProgressLength = {
+					INP_Integer = false,
+					LINKID_DataType = "Number",
+					ICS_ControlPage = "Route",
+					INP_Default = 0,
+					INPID_InputControl = "SliderControl",
+					LINKS_Name = "ProgressLength",
+				},
+				ProgressText = {
+					LINKS_Name = "ProgressText",
+					LINKID_DataType = "Text",
+					INPID_InputControl = "TextEditControl",
+					TEC_Lines = 1,
+					TEC_Wrap = false,
+					TEC_ReadOnly = false,
+					ICS_ControlPage = "Route",
+					INP_Passive = true,
+				}
+			}
+		}
+	},
+	ActiveTool = "Route"
+}
