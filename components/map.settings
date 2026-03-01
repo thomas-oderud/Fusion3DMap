@@ -92,7 +92,7 @@
 					INPID_InputControl = "SliderControl",
 					IC_Steps = 0,
 					INP_MaxScale = 1,
-					INP_Default = 1,
+					INP_Default = 0,
 					INP_MinScale = 0,
 					INP_MinAllowed = 0,
 					LINKID_DataType = "Number",

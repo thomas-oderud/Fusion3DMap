@@ -159,9 +159,10 @@ class FusionMap:
             comp.Paste(cont) 
 
             routepart = comp.FindTool(partname)
-            routepart.WriteLength.SetExpression(f"(({route.length}*"+route_settings_name+f".Progress)-{part.start})/(({part.length}+{part.start})-{part.start})") 
+            if part.length > 0:
+                routepart.WriteLength.SetExpression(f"(({route.length}*"+route_settings_name+f".Progress)-{part.start})/(({part.length}+{part.start})-{part.start})") 
             routepart.WritePosition.SetExpression("iif(WriteLength>0,0,-0.01)")
-            routepart.BorderWidth.SetExpression(self.component_settings_name+".BorderWidth")   
+            routepart.BorderWidth.SetExpression(route_settings_name+".BorderWidth")   
 
             routeBackground = comp.Background()
             routeBackground.SetAttrs({"TOOLS_Name": f"RouteBackground_"+partname})

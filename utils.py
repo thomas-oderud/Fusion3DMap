@@ -19,7 +19,8 @@ class Tile:
 
 class BigTile:
     def __init__(self, row, col, x, y, z, detailed = False):
-        self.DetailedTiles = []
+        self.DetailedImageTiles = []
+        self.DetailedElevationTiles = []
         self.row = row
         self.col = col
         self.x = x
@@ -37,7 +38,7 @@ class BigTile:
     
     def getSize(self):
 
-        img = cv2.imread(self.finishedimagetile)
+        img = cv2.imread(self.finishedimagedetailedtile)
         height, width, channels = img.shape
         return height
 
@@ -58,6 +59,8 @@ class MapBuilder:
     def __init__(self, mapname, zoom=10, minelevation=0, maxelevation=9000, toplefttilex=-1, toplefttiley=-1):
         self.mapname = mapname
         self.zoom = zoom
+        self.overviewzoom = 0
+        self.marginaroundgeographysources = 1000 # meters
         self.minelevation = minelevation
         self.maxelevation = maxelevation
         self.toplefttilex = toplefttilex
@@ -68,7 +71,8 @@ class MapBuilder:
         self.download_directory = os.path.join(self.image_directory, "download")
         self.addtilesarounddetailed = 0
         self.tiles = []
-        self.maxtilesperimage = 8
+        self._maxtilesperimage = 0
+        self.maxpixelwidthpertile = 4096
         self.scalefactor = 1
         self.forcereprocesselevation = False
         self.exagerateelevation = 1.2
@@ -78,7 +82,7 @@ class MapBuilder:
 
         tiles_with_details = list(filter(lambda item: item.detailed == True, self.tiles))
         first_tile = min(tiles_with_details, key=lambda tile: (tile.x, tile.y))
-        first_child_tile = min(first_tile.DetailedTiles, key=lambda tile: (tile.x, tile.y))
+        first_child_tile = min(first_tile.DetailedImageTiles, key=lambda tile: (tile.x, tile.y))
 
         return first_tile.row, first_tile.col, first_child_tile.x, first_child_tile.y, first_child_tile.z
 
@@ -91,9 +95,16 @@ class MapBuilder:
     
         # lat1, lon1, lat2, lon2, zoom, tile_size, overview_tile_buffer
 
-        overview_zoom = self.zoom - int(math.log2(self.maxtilesperimage))
+        #overview_zoom = self.zoom - int(math.log2(self.maxtilesperimage))
         
-        lat1, lon1, lat2, lon2 = self.filesources.getBounds()
+        maxlat, minlon, minlat, maxlon = self.filesources.getBounds()
+        
+        lat1, lon1 = translate_latlong(maxlat, minlon, self.marginaroundgeographysources, -self.marginaroundgeographysources)
+        lat2, lon2 = translate_latlong(minlat, maxlon, -self.marginaroundgeographysources, self.marginaroundgeographysources)
+
+        maxtilesperimage = self.maxpixelwidthpertile / max(self.tilesources.selectedElevationSource().tilesize, self.tilesources.selectedImageSource().tilesize) 
+
+        overview_zoom = self.zoom - int(math.log2(maxtilesperimage))
 
         # Make initial map square
         tilesize_in_meters = deg2actualsize(lat1, lon1, overview_zoom)
@@ -141,7 +152,8 @@ class MapBuilder:
         no_off_tiles = (xtra_br_tilex - xtra_tl_tilex + 1) * (xtra_br_tiley - xtra_tl_tiley + 1)
 
         print(f'There are {no_off_tiles} big tiles...')
-        no_off_detailedtiles = 0
+        no_off_detailedimagetiles = 0
+        no_off_detailedelevationtiles = 0
 
         for x in range (xtra_tl_tilex, xtra_br_tilex + 1):
             for y in range(xtra_tl_tiley, xtra_br_tiley + 1):
@@ -154,16 +166,19 @@ class MapBuilder:
                 new_tile = BigTile(x_index, y_index, x, y, overview_zoom, detailed)
 
                 if detailed:
-                    new_tile.DetailedTiles = sorted(get_all_children(x, y, overview_zoom), key=lambda tile: (tile.x, tile.y))
-                    no_off_detailedtiles += len(new_tile.DetailedTiles)
+                    new_tile.DetailedImageTiles = sorted(get_all_children(x, y, overview_zoom, self.tilesources.selectedImageSource().maxzoom), key=lambda tile: (tile.x, tile.y))
+                    new_tile.DetailedElevationTiles = sorted(get_all_children(x, y, overview_zoom, self.tilesources.selectedElevationSource().maxzoom), key=lambda tile: (tile.x, tile.y))
+                    no_off_detailedimagetiles += len(new_tile.DetailedImageTiles)
+                    no_off_detailedelevationtiles += len(new_tile.DetailedElevationTiles)
+
 
                 self.tiles.append(new_tile)
                 y_index += 1
             y_index = 0
             x_index += 1
 
-        print(f'There are {no_off_detailedtiles} detailed tiles...')
-
+        print(f'There are {no_off_detailedimagetiles} detailed image tiles and {no_off_detailedelevationtiles} detailed elevation tiles...')
+        self._maxtilesperimage = maxtilesperimage
 
     def fetchTiles(self):
    
@@ -191,7 +206,7 @@ class MapBuilder:
                 print(f'{image_tile} downloaded...')
 
             if tile.detailed == True:
-                for detailed_tile in tile.DetailedTiles:
+                for detailed_tile in tile.DetailedElevationTiles:
                     elevation_tile = os.path.join(self.download_directory, f'elevation_{self.tilesources.selectedElevationSource().prefix}_{detailed_tile.x}_{detailed_tile.y}.png')
                     detailed_tile.elevationsource = elevation_tile
                     if os.path.isfile(elevation_tile):
@@ -201,7 +216,7 @@ class MapBuilder:
                     else:
                         detailed_tile.status = downloadTile(self.tilesources.selectedElevationSource().getFormattedUrl(detailed_tile.x, detailed_tile.y, detailed_tile.z), elevation_tile)
                         print(f'{elevation_tile} downloaded...')
-
+                for detailed_tile in tile.DetailedImageTiles:
                     image_tile = os.path.join(self.download_directory, f'image_{self.tilesources.selectedImageSource().prefix}_{detailed_tile.x}_{detailed_tile.y}.png')
                     detailed_tile.imagesource = image_tile
                     if os.path.isfile(image_tile):
@@ -265,9 +280,10 @@ class MapBuilder:
                 image_output_tile = os.path.join(self.image_directory, f'{self.mapname}_image_{imagesource.prefix}_zoom{tile.z}_{tile.x}_{tile.y}_detailed.png')
                 
                 print(f'Generating detailed tile {tile.row} - {tile.col}')
-                no_detailed_tiles = int(math.sqrt(len(tile.DetailedTiles)))
-                elevation_tile_size = no_detailed_tiles * elevationsource.tilesize
-                image_tile_size = no_detailed_tiles * imagesource.tilesize 
+                no_detailed_elevation_tiles = int(math.sqrt(len(tile.DetailedElevationTiles)))
+                no_detailed_image_tiles = int(math.sqrt(len(tile.DetailedImageTiles)))
+                elevation_tile_size = no_detailed_elevation_tiles * elevationsource.tilesize
+                image_tile_size = no_detailed_image_tiles * imagesource.tilesize 
                 elevation_output_temp_tile = np.zeros((elevation_tile_size, elevation_tile_size), np.uint16)
                 image_output_temp_tile = np.zeros((image_tile_size, image_tile_size, 3), np.uint8)
            
@@ -277,9 +293,9 @@ class MapBuilder:
                     tile.outputstatus += 1
                     tile.finishedelevationdetailedtile = elevation_output_tile
                 else:                  
-                    row_min = min(tile.DetailedTiles, key=lambda x: x.x)
-                    col_min = min(tile.DetailedTiles, key=lambda x: x.y)
-                    no_detailed_tiles = len(tile.DetailedTiles)
+                    row_min = min(tile.DetailedElevationTiles, key=lambda x: x.x)
+                    col_min = min(tile.DetailedElevationTiles, key=lambda x: x.y)
+                    no_detailed_tiles = len(tile.DetailedElevationTiles)
                     tiles_per_side = int(math.sqrt(no_detailed_tiles))
                     print(f'Stitching {no_detailed_tiles} greyscale tiles... ({tiles_per_side}*{tiles_per_side})')
                     tz = self.tilesources.selectedElevationSource().tilesize
@@ -291,7 +307,7 @@ class MapBuilder:
                     results = []
 
                     with ThreadPoolExecutor(max_workers=6) as executor:
-                        for detailed_tile in tile.DetailedTiles:
+                        for detailed_tile in tile.DetailedElevationTiles:
                             print(f'\rProcessing grayscale values - Started {current_tile} of {no_detailed_tiles} - {completed_tiles} completed', end='', flush=True)
                             row = detailed_tile.x - row_min.x
                             col = detailed_tile.y - col_min.y
@@ -322,9 +338,9 @@ class MapBuilder:
                     tile.finishedimagedetailedtile = image_output_tile
                 else:
 
-                    row_min = min(tile.DetailedTiles, key=lambda x: x.x)
-                    col_min = min(tile.DetailedTiles, key=lambda x: x.y)
-                    no_detailed_tiles = len(tile.DetailedTiles)
+                    row_min = min(tile.DetailedImageTiles, key=lambda x: x.x)
+                    col_min = min(tile.DetailedImageTiles, key=lambda x: x.y)
+                    no_detailed_tiles = len(tile.DetailedImageTiles)
                     tiles_per_side = int(math.sqrt(no_detailed_tiles))
                     print(f'Stitching {no_detailed_tiles} image tiles... ({tiles_per_side}*{tiles_per_side})')
                     tz = self.tilesources.selectedImageSource().tilesize
@@ -332,7 +348,7 @@ class MapBuilder:
                     current_tile = 1
                     completed_tiles = 0
                     
-                    for detailed_tile in tile.DetailedTiles:
+                    for detailed_tile in tile.DetailedImageTiles:
                         print(f'\rProcessing images - {completed_tiles} completed', end='', flush=True)
                         row = detailed_tile.x - row_min.x
                         col = detailed_tile.y - col_min.y
@@ -365,7 +381,7 @@ class MapBuilder:
         offset_row, offset_col, x, y, z = self.getTileInformationForRelativeCalculations()
 
         for source in self.filesources.sources:
-            self.scalefactor = source.process(self.minelevation, self.maxelevation, self.zoom, x, y, self.maxtilesperimage, self.waypointtoroutemargin, offset_row, offset_col)
+            self.scalefactor = source.process(self.minelevation, self.maxelevation, self.zoom, x, y, self._maxtilesperimage, self.waypointtoroutemargin, offset_row, offset_col)
 
     def buildFusionMap(self):
 
@@ -386,6 +402,7 @@ class MapBuilder:
             for source in self.filesources.sources:
                 parts = list(filter(lambda part: part.col == tile.col and part.row == tile.row, source.route.parts))
                 if len(parts) > 0:
+                    
                     fusionMap.buildGeometry(source.route, parts, tile.getSize())             
                 
         for source in self.filesources.sources:
@@ -481,6 +498,53 @@ def image_size(lat1: float, lon1: float, lat2: float, lon2: float, zoom: int, ti
 
     return abs(tl_pixel_x - br_pixel_x), br_pixel_y - tl_pixel_y
 
+def addExtraPointToLastPart(lastRelativeX, relativeX, lastRelativeY, relativeY):
+    
+    returnX = relativeX
+    returnY = relativeY
+    isOutside = False
+    xDifference = abs(lastRelativeX - relativeX)
+    yDifference = abs(lastRelativeY - relativeY)
+
+    if lastRelativeX < 0 and relativeX > 0 and xDifference > 0.5:
+         returnX = -1+relativeX
+         isOutside = True
+    if lastRelativeX > 0 and relativeX < 0 and xDifference > 0.5:
+         returnX = 1 + relativeX
+         isOutside = True
+    if lastRelativeY < 0 and relativeY > 0 and yDifference > 0.5:
+         returnY = -1+relativeY
+         isOutside = True
+    if lastRelativeY > 0 and relativeY < 0 and yDifference > 0.5:
+         returnY = 1 + relativeY
+         isOutside = True
+
+    return isOutside, returnX, returnY
+
+def addExtraPointToNextPart(lastRelativeX, relativeX, lastRelativeY, relativeY):
+    
+    returnX = lastRelativeX
+    returnY = lastRelativeY
+    isOutside = False
+    xDifference = abs(lastRelativeX - relativeX)
+    yDifference = abs(lastRelativeY - relativeY)
+
+    if lastRelativeX < 0 and relativeX > 0 and xDifference > 0.5:
+         returnX = 1+lastRelativeX
+         isOutside = True
+    if lastRelativeX > 0 and relativeX < 0 and xDifference > 0.5:
+         returnX = -1 + lastRelativeX
+         isOutside = True
+    if lastRelativeY < 0 and relativeY > 0 and yDifference > 0.5:
+         returnY = 1+lastRelativeY
+         isOutside = True
+    if lastRelativeY > 0 and relativeY < 0 and yDifference > 0.5:
+         returnY = -1 + lastRelativeY
+         isOutside = True
+
+    return isOutside, returnX, returnY
+
+    
 def project_with_scale(lat, lon, scale):
     siny = np.sin(lat * np.pi / 180)
     siny = min(max(siny, -0.9999), 0.9999)
@@ -529,7 +593,7 @@ def translate_latlong(lat,long,lat_translation_meters,long_translation_meters):
     
     return lat_new,long_new
 
-def get_all_children(x, y, z):
+def get_all_children(x, y, z, detailedzoom):
 
 
     all_children = []
@@ -537,9 +601,12 @@ def get_all_children(x, y, z):
     first_level = mercantile.children(x, y, z)
     for tile in first_level:
         second_level = mercantile.children(tile.x, tile.y, tile.z)
-        for child_tile in second_level:
-            third_level = mercantile.children(child_tile.x, child_tile.y, child_tile.z)
-            all_children.extend(third_level)
+        if detailedzoom == z+2:
+            all_children.extend(second_level)
+        else:
+            for child_tile in second_level:
+                third_level = mercantile.children(child_tile.x, child_tile.y, child_tile.z)
+                all_children.extend(third_level)
 
     return all_children
 
@@ -605,3 +672,4 @@ def checkDirectories():
 
     downloaddirectory = os.path.join(imagedirectory, 'download')
     os.makedirs(downloaddirectory, exist_ok=True)
+    return gpxdirectory, imagedirectory, downloaddirectory

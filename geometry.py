@@ -118,7 +118,7 @@ class GpxSource(GeometrySource):
             for segment in track.segments:
                 print(f'Total points {len(segment.points)}')
                 p_counter = 0
-                
+                last_part_was_empty = False
                 total_points = len(segment.points)
                 part = RoutePart(1, 0, 0, 0, 0.0)
                 partsegment = gpxpy.gpx.GPXTrackSegment()
@@ -130,9 +130,7 @@ class GpxSource(GeometrySource):
                     point_row += offset_row
                     point_col += offset_col
                     # First point
-                    if firstpoint:
-                        
-                        
+                    if firstpoint:                       
                         waypointrelativeelevation = (point.elevation - minelevation) / (elevation_span) 
                         waypointylocation = (waypointrelativeelevation)*scalefactor 
                         wp_new = Waypoint('Start', '', WaypointType.Start, 0, point.elevation, point_row+relx, point_col-rely, waypointylocation)             
@@ -156,29 +154,45 @@ class GpxSource(GeometrySource):
                     else:
                         part.length = partsegment.length_3d()
                         currentlength = currentlength + part.length
-                        if (lastrelx < 0 and relx > 0):
-                            part.points.append(XYPoint(-1+relx, rely))
-                        if (lastrelx > 0 and relx < 0):
-                            part.points.append(XYPoint(1+relx, rely))
-                        if (lastrely < 0 and rely > 0):
-                            part.points.append(XYPoint(relx, -1+rely))
-                        if (lastrely > 0 and rely < 0):
-                            part.points.append(XYPoint(relx, 1+rely))
-                        self.route.parts.append(part)
-                        print(f"Added route part in tile {part.row}, {part.col}")
-                        index += 1
-                        part = RoutePart(index, point_row, point_col, 0, currentlength)
-                        partsegment = gpxpy.gpx.GPXTrackSegment()
-                        partsegment.points.append(gpxpy.gpx.GPXTrackPoint(point.latitude, point.longitude, point.elevation))
-                        if (lastrelx < 0 and relx > 0):
-                            part.points.append(XYPoint(1+lastrelx, lastrely))
-                        if (lastrelx > 0 and relx < 0):
-                            part.points.append(XYPoint(-1+lastrelx, lastrely))
-                        if (lastrely < 0 and rely > 0):
-                            part.points.append(XYPoint(lastrelx, 1+lastrely))
-                        if (lastrely > 0 and rely < 0):
-                            part.points.append(XYPoint(lastrelx, -1+lastrely))
-                        part.points.append(XYPoint(relx, rely))
+                        if part.length > 0:
+                            
+                            if last_part_was_empty == False:
+                                isoutside, x, y = addExtraPointToLastPart(lastrelx, relx, lastrely, rely)
+                                if isoutside:
+                                     part.points.append(XYPoint(x, y))
+                                #if (lastrelx < 0 and relx > 0):            
+                                #    part.points.append(XYPoint(-1+relx, rely))
+                                #if (lastrelx > 0 and relx < 0):
+                                #   part.points.append(XYPoint(1+relx, rely))
+                                #if (lastrely < 0 and rely > 0):
+                                #  part.points.append(XYPoint(relx, -1+rely))
+                                #if (lastrely > 0 and rely < 0):
+                                #    part.points.append(XYPoint(relx, 1+rely))
+                                
+                            self.route.parts.append(part)
+                            print(f"Added route part in tile {part.row}, {part.col}")
+                            index += 1
+                            part = RoutePart(index, point_row, point_col, 0, currentlength)
+                            partsegment = gpxpy.gpx.GPXTrackSegment()
+                            partsegment.points.append(gpxpy.gpx.GPXTrackPoint(point.latitude, point.longitude, point.elevation))
+                            isoutside, x, y = addExtraPointToNextPart(lastrelx, relx, lastrely, rely)
+                            if isoutside:
+                                part.points.append(XYPoint(x, y))
+                            #if (lastrelx < 0 and relx > 0):
+                            #    part.points.append(XYPoint(1+lastrelx, lastrely))
+                            #if (lastrelx > 0 and relx < 0):
+                            #    part.points.append(XYPoint(-1+lastrelx, lastrely))
+                            #if (lastrely < 0 and rely > 0):
+                            #    part.points.append(XYPoint(lastrelx, 1+lastrely))
+                            #if (lastrely > 0 and rely < 0):
+                            #    part.points.append(XYPoint(lastrelx, -1+lastrely))
+                            part.points.append(XYPoint(relx, rely))
+                            last_part_was_empty = False
+                        else:
+                            part = RoutePart(index, point_row, point_col, 0, currentlength)
+                            partsegment = gpxpy.gpx.GPXTrackSegment()
+                            last_part_was_empty = True
+                            continue
 
                     # Add camera target if over threshold distance
 
