@@ -1,0 +1,6 @@
+gpxpy
+mercantile
+opencv-python
+numpy
+requests
+python-dotenv
