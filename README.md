@@ -51,6 +51,14 @@ You must also have DaVinci Resolve installed; the script uses the `DaVinciResolv
 - If you want to change image or elevation providers, update `TileSources` in `slippytiles.py` or modify the selection in `main.py`.
 - Camera animation, markers, and geometry settings can be customized through the Fusion component templates stored in `components/`.
 
+### Example Output
+
+A sample rendered animation using this project is available on YouTube:
+
+https://youtu.be/OrFVWtgBLMQ
+
+Feel free to watch for inspiration or to verify expected results.
+
 ---
 
 Feel free to fork and adapt the code for your own mapping or video production workflows.
