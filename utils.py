@@ -444,7 +444,8 @@ def makeGrayscale(image, tilesource, row_pos, col_pos):
             
             grayscale = int(round((math.ceil(elevation) - tilesource.minelevation) / (tilesource.maxelevation-tilesource.minelevation) * (65536), 0))
             
-            if grayscale < 1: grayscale = 1 # Set lowest value to 1 to
+            if grayscale < 1: grayscale = 1 # Set lowest value to 1
+            if grayscale > 255: grayscale = 255 # Set highest value to 255
             grayscale_tile[i, j] = grayscale
             
     return grayscale_tile, row_pos, col_pos
