@@ -91,15 +91,15 @@ class FusionInstance:
 
 
 class FusionMap:
-    def __init__(self, component_settings_name = 'Map', component_marker_name = 'SimpleMarker'):
+    def __init__(self, component_settings_name = 'Map', component_marker_name = 'SimpleMarker', startanimation=10, endanimation=5):
         self.componentdirectory = os.path.join(os.path.dirname(__file__) , 'components')
         self.markerdirectory = os.path.join(self.componentdirectory, "markers")     
         self.settings = None
         self.component_settings_name = component_settings_name
         self.component_marker_name = component_marker_name
         self.animatecamera = 1
-        self.startanimation = 10.0
-        self.endanimation = 5.0
+        self.startanimation = startanimation
+        self.endanimation = endanimation
         self.cameralag = 3
         self.camerayoffset = 0.15
         self._useresolve = 0
@@ -244,6 +244,8 @@ class FusionMap:
         camera_wp_index = 0
         comp = self._comp
         flow = comp.CurrentFrame.FlowView
+        route_settings_name = f"{COMP_ROUTESETTINGS_NAME}_"+route.getName()
+        route_settings = comp.FindTool(route_settings_name)
         comp.CurrentTime = 0
 
         comp_start_frame = comp.GetAttrs("COMPN_GlobalStart")
@@ -253,11 +255,11 @@ class FusionMap:
         print(f"Animating from frame {self.startanimation} over {frames_to_animate_over} frames and ending at frame {comp_end_frame-self.endanimation}")
 
         
-        self.settings.Progress = comp.BezierSpline("{}")
-        self.settings.Progress.InterpolateBetweenFrames = 0
-        self.settings.Progress[0] = 0
-        self.settings.Progress[self.startanimation] = 0
-        self.settings.Progress[self.startanimation+frames_to_animate_over] = 1
+        route_settings.Progress = comp.BezierSpline("{}")
+        route_settings.Progress.InterpolateBetweenFrames = 0
+        route_settings.Progress[0] = 0
+        route_settings.Progress[self.startanimation] = 0
+        route_settings.Progress[self.startanimation+frames_to_animate_over] = 1
 
         #maincamera = comp.FindTool({COMP_MAINCAMERA_NAME})
         self._maincamera.Transform3DOp.Translate.X = comp.BezierSpline("{}")

@@ -20,7 +20,7 @@ MAPTILER_API_KEY = os.getenv("MAPTILER_API_KEY")
 mapbuilder.tilesources.ImageSources[2].apikey = MAPTILER_API_KEY
 mapbuilder.tilesources.ElevationSources[1].apikey = MAPTILER_API_KEY
 
-mapbuilder.addtilesarounddetailed = 0
+mapbuilder.addtilesarounddetailed = 2
 
 mapbuilder.calculateTiles()
 mapbuilder.fetchTiles()
@@ -28,7 +28,7 @@ mapbuilder.buildOutputTiles()
 
 mapbuilder.processAndAddFileSources()
 
-mapbuilder.buildFusionMap()
+mapbuilder.buildFusionMap(startanimation=300, endanimation=100)
 
 
 print("Done!")

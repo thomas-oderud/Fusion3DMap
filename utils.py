@@ -383,9 +383,9 @@ class MapBuilder:
         for source in self.filesources.sources:
             self.scalefactor = source.process(self.minelevation, self.maxelevation, self.zoom, x, y, self._maxtilesperimage, self.waypointtoroutemargin, offset_row, offset_col)
 
-    def buildFusionMap(self):
+    def buildFusionMap(self, startanimation = 10, endanimation = 5):
 
-        fusionMap = FusionMap()
+        fusionMap = FusionMap(startanimation=startanimation, endanimation=endanimation)
         fusionMap.checkFusionInstance()
         #fusionMap.buildSettingsComponent(self.filesources.sources[0].route, self.scalefactor)
         fusionMap.buildMainComponents(self.scalefactor, self.tilesources.selectedElevationSource().attribution)
