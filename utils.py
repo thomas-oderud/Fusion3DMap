@@ -56,11 +56,11 @@ class DetailedTile:
 
 
 class MapBuilder:
-    def __init__(self, mapname, zoom=10, minelevation=0, maxelevation=9000, toplefttilex=-1, toplefttiley=-1):
+    def __init__(self, mapname, zoom=10, minelevation=0, maxelevation=9000, margin_around_geometry_sources=1000, toplefttilex=-1, toplefttiley=-1):
         self.mapname = mapname
         self.zoom = zoom
         self.overviewzoom = 0
-        self.marginaroundgeographysources = 1000 # meters
+        self.margin_around_geometry_sources = margin_around_geometry_sources # meters
         self.minelevation = minelevation
         self.maxelevation = maxelevation
         self.toplefttilex = toplefttilex
@@ -99,8 +99,8 @@ class MapBuilder:
         
         maxlat, minlon, minlat, maxlon = self.filesources.getBounds()
         
-        lat1, lon1 = translate_latlong(maxlat, minlon, self.marginaroundgeographysources, -self.marginaroundgeographysources)
-        lat2, lon2 = translate_latlong(minlat, maxlon, -self.marginaroundgeographysources, self.marginaroundgeographysources)
+        lat1, lon1 = translate_latlong(maxlat, minlon, self.margin_around_geometry_sources, -self.margin_around_geometry_sources)
+        lat2, lon2 = translate_latlong(minlat, maxlon, -self.margin_around_geometry_sources, self.margin_around_geometry_sources)
 
         maxtilesperimage = self.maxpixelwidthpertile / max(self.tilesources.selectedElevationSource().tilesize, self.tilesources.selectedImageSource().tilesize) 
 
