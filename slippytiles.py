@@ -61,9 +61,9 @@ class ElevationTileSource(TileSource):
         self.calculationmethod = calculationmethod
 
     def GetElevation(self, pixelcolor):
-        red = pixelcolor[2]
-        green = pixelcolor[1]
-        blue = pixelcolor[0]
+        red = int(pixelcolor[2])
+        green = int(pixelcolor[1])
+        blue = int(pixelcolor[0])
         if self.calculationmethod == 1:
             return ((red * 256.0) + green + (blue / 256.0)) - 32768.0
         if self.calculationmethod == 2:

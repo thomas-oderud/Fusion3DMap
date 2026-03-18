@@ -56,11 +56,11 @@ class DetailedTile:
 
 
 class MapBuilder:
-    def __init__(self, mapname, zoom=10, minelevation=0, maxelevation=9000, toplefttilex=-1, toplefttiley=-1):
+    def __init__(self, mapname, zoom=10, minelevation=0, maxelevation=9000, margin_around_geometry_sources=1000, toplefttilex=-1, toplefttiley=-1):
         self.mapname = mapname
         self.zoom = zoom
         self.overviewzoom = 0
-        self.marginaroundgeographysources = 1000 # meters
+        self.margin_around_geometry_sources = margin_around_geometry_sources # meters
         self.minelevation = minelevation
         self.maxelevation = maxelevation
         self.toplefttilex = toplefttilex
@@ -99,8 +99,8 @@ class MapBuilder:
         
         maxlat, minlon, minlat, maxlon = self.filesources.getBounds()
         
-        lat1, lon1 = translate_latlong(maxlat, minlon, self.marginaroundgeographysources, -self.marginaroundgeographysources)
-        lat2, lon2 = translate_latlong(minlat, maxlon, -self.marginaroundgeographysources, self.marginaroundgeographysources)
+        lat1, lon1 = translate_latlong(maxlat, minlon, self.margin_around_geometry_sources, -self.margin_around_geometry_sources)
+        lat2, lon2 = translate_latlong(minlat, maxlon, -self.margin_around_geometry_sources, self.margin_around_geometry_sources)
 
         maxtilesperimage = self.maxpixelwidthpertile / max(self.tilesources.selectedElevationSource().tilesize, self.tilesources.selectedImageSource().tilesize) 
 
@@ -383,9 +383,9 @@ class MapBuilder:
         for source in self.filesources.sources:
             self.scalefactor = source.process(self.minelevation, self.maxelevation, self.zoom, x, y, self._maxtilesperimage, self.waypointtoroutemargin, offset_row, offset_col)
 
-    def buildFusionMap(self):
+    def buildFusionMap(self, startanimation = 10, endanimation = 5):
 
-        fusionMap = FusionMap()
+        fusionMap = FusionMap(startanimation=startanimation, endanimation=endanimation)
         fusionMap.checkFusionInstance()
         #fusionMap.buildSettingsComponent(self.filesources.sources[0].route, self.scalefactor)
         fusionMap.buildMainComponents(self.scalefactor, self.tilesources.selectedElevationSource().attribution)
@@ -445,7 +445,6 @@ def makeGrayscale(image, tilesource, row_pos, col_pos):
             grayscale = int(round((math.ceil(elevation) - tilesource.minelevation) / (tilesource.maxelevation-tilesource.minelevation) * (65536), 0))
             
             if grayscale < 1: grayscale = 1 # Set lowest value to 1
-            if grayscale > 255: grayscale = 255 # Set highest value to 255
             grayscale_tile[i, j] = grayscale
             
     return grayscale_tile, row_pos, col_pos
