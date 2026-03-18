@@ -52,7 +52,7 @@ class GpxSource(GeometrySource):
        
     def preprocess(self):
         
-        gpx_file = open(self.filepath, "r")
+        gpx_file = open(self.filepath, 'r', encoding='utf-8-sig')
         gpx = gpxpy.parse(gpx_file)
        
         # LATITUDE -> HEIGHT -> ROWS
