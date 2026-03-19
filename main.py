@@ -12,12 +12,12 @@ gpxdirectory, imagedirectory, downloaddirectory = checkDirectories()
 
 ###### Change to your prefences #########
 
-mapbuilder = MapBuilder(mapname='krsultra', zoom=15, minelevation=0, maxelevation=750, margin_around_geometry_sources=1000)
+mapbuilder = MapBuilder(mapname='krsultra', zoom=13, minelevation=0, maxelevation=750, margin_around_geometry_sources=1000)
 gpxfile = os.path.join(gpxdirectory, 'KRSUltra60.gpx')
 mapbuilder.filesources.addSource(GpxSource(gpxfile, animate=True, addwaypointsasmarkers=True))
 mapbuilder.tilesources.setElevationSource(1) # See slippytiles for options
 mapbuilder.tilesources.setImageSource(2) # See slippytiles for options
-mapbuilder.addtilesarounddetailed = 2 # How many extra non-detailed tiles to add around the detailed area?
+mapbuilder.addtilesarounddetailed = 0 # How many extra non-detailed tiles to add around the detailed area?
 
 #########################################
 
@@ -30,7 +30,7 @@ mapbuilder.buildOutputTiles()
 
 mapbuilder.processAndAddFileSources()
 
-mapbuilder.buildFusionMap(startanimation=300, endanimation=100)
+mapbuilder.buildFusionMap(startanimation=100, endanimation=100)
 
 
 print("Done!")
